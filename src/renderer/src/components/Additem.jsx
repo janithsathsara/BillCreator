@@ -16,7 +16,7 @@ const Additem = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // props.onAdd(formData) // because onAdd is not a function as of yet
+    window.electron.ipcRenderer.send('add-item', formData)
     console.log(formData)
     setFormData({ item: '', price: '', fileLocation: '' })
   }

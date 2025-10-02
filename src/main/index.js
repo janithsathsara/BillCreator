@@ -2,6 +2,8 @@ import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import setupDataBase from '../renderer/DBManager'
+import setupDatabase from '../renderer/DBManager'
 
 function createWindow() {
   // Create the browser window.
@@ -38,7 +40,7 @@ function createWindow() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
@@ -62,6 +64,14 @@ app.whenReady().then(() => {
       })
       .catch((err) => console.log(err))
   })
+
+  ipcMain.on('add-item', (event, data) => {
+    insertItemsIntoDatabase(data)
+  })
+  //TODO: add database connection to save data
+  const insertItemsIntoDatabase = async (item) => { }
+
+  await setupDatabase()
 
   createWindow()
 
